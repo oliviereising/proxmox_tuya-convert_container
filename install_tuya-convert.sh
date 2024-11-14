@@ -81,8 +81,8 @@ fi
 pipx install paho-mqtt tornado git+https://github.com/drbild/sslpsk.git pycryptodomex
 
 # ./install_prereq.sh &>/dev/null
-systemctl disable dnsmasq &>/dev/null
-systemctl disable mosquitto &>/dev/null
+# systemctl disable dnsmasq &>/dev/null
+# systemctl disable mosquitto &>/dev/null
 
 # Customize OS
 msg "Customizing OS..."
