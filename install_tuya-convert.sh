@@ -69,7 +69,6 @@ msg "Configuring tuya-convert..."
 
 # Install tuya-convert
 msg "Running tuya-convert/install_prereq.sh..."
-ls 
 
 cd /root/tuya-convert
 # Ensure PATH includes directories where system binaries are located
@@ -78,11 +77,12 @@ export PATH=$PATH:/sbin:/usr/sbin
 if ! command -v sudo &> /dev/null; then
     echo "'sudo' command not found. Installing..."
     apt update
-    apt install -y sudo
+    apt apt install -y git iw dnsmasq rfkill hostapd screen curl build-essential python3-pip python3-setuptools python3-wheel python3-dev mosquitto haveged net-tools libssl-dev iproute2 iputils-ping
 fi
 
-ls
-./install_prereq.sh &>/dev/null
+python3 -m pip install --user --upgrade paho-mqtt tornado git+https://github.com/drbild/sslpsk.git pycryptodomex
+
+# ./install_prereq.sh &>/dev/null
 systemctl disable dnsmasq &>/dev/null
 systemctl disable mosquitto &>/dev/null
 
