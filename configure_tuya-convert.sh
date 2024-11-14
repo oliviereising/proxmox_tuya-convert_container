@@ -15,15 +15,27 @@ cd /root/tuya-convert
 # Remove 'sudo' commands from all .sh files in the tuya-convert directory
 find ./ -name '*.sh' -exec sed -i -e "s/sudo \(-\S\+ \)*//" {} \;
 
-# Check if 'iw' is installed, and install if missing
+# Check if 'iw' is installed and available in the system PATH
 if ! command -v iw &> /dev/null; then
     echo "'iw' command not found. Installing..."
     apt update
     apt install -y iw
 fi
 
-# Use the full path for 'iw' to ensure compatibility in script
+# Debugging: Output the path to iw command
+echo "Path to 'iw' command: $(which iw)"
+
+# Debugging: Check if iw is accessible
+if ! /usr/sbin/iw dev &> /dev/null; then
+    echo "Error: 'iw' command failed. Exiting."
+    exit 1
+fi
+
+# Attempt to get the WLAN interface
 WLAN=$(/usr/sbin/iw dev | sed -n 's/[[:space:]]Interface \(.*\)/\1/p' | head -n 1)
+
+# Debugging: Check the value of WLAN
+echo "Detected WLAN interface: $WLAN"
 
 # Verify that WLAN was set correctly
 if [ -z "$WLAN" ]; then
@@ -32,4 +44,5 @@ if [ -z "$WLAN" ]; then
 fi
 
 # Update WLAN setting in config.txt
+echo "Updating WLAN in config.txt to: $WLAN"
 sed -i "s/^\(WLAN=\)\(.*\)/\1$WLAN/" config.txt
