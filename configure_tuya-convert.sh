@@ -11,9 +11,4 @@ find ./ -name \*.sh -exec sed -i -e "s/sudo \(-\S\+ \)*//" {} \;
 
 WLAN=$(iw dev | sed -n 's/[[:space:]]Interface \(.*\)/\1/p' | head -n 1)
 
-if [ -z "$WLAN" ]; then
-  echo "No wireless interface found."
-  exit 1
-fi
-
 sed -i "s/^\(WLAN=\)\(.*\)/\1$WLAN/" config.txt
