@@ -69,6 +69,7 @@ msg "Configuring tuya-convert..."
 
 # Install tuya-convert
 msg "Running tuya-convert/install_prereq.sh..."
+ls /root/tuya-convert/install_prereq.sh
 cd tuya-convert
 ./install_prereq.sh &>/dev/null
 systemctl disable dnsmasq &>/dev/null
