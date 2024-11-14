@@ -78,7 +78,10 @@ if ! command -v sudo &> /dev/null; then
     apt install -y git iw dnsmasq rfkill hostapd screen curl build-essential python3-pip pipx python3-setuptools python3-wheel python3-dev mosquitto haveged net-tools libssl-dev iproute2 iputils-ping
 fi
 
-pipx install paho-mqtt tornado sslpsk pycryptodomex
+pipx install paho-mqtt 
+pipx install tornado 
+pipx install sslpsk 
+pipx install pycryptodomex
 
 # ./install_prereq.sh &>/dev/null
 systemctl disable dnsmasq &>/dev/null
