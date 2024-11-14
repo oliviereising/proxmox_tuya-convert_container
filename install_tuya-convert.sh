@@ -1,47 +1,27 @@
 #!/usr/bin/env bash
 
 # Setup script
-set -o errexit  # Exit immediately if a pipeline returns a non-zero status
-set -o errtrace # Trap ERR from shell functions, command substitutions, and commands from subshell
-set -o nounset  # Treat unset variables as an error
-set -o pipefail # Pipe will exit with last non-zero status if applicable
+set -o errexit  #Exit immediately if a pipeline returns a non-zero status
+set -o errtrace #Trap ERR from shell functions, command substitutions, and commands from subshell
+set -o nounset  #Treat unset variables as an error
+set -o pipefail #Pipe will exit with last non-zero status if applicable
 shopt -s expand_aliases
 alias die='EXIT=$? LINE=$LINENO error_exit'
 trap die ERR
 
-# Error handling function with enhanced debugging output
 function error_exit() {
   trap - ERR
-  local DEFAULT='Unknown failure occurred.'
+  local DEFAULT='Unknown failure occured.'
   local REASON="\e[97m${1:-$DEFAULT}\e[39m"
   local FLAG="\e[91m[ERROR:LXC] \e[93m$EXIT@$LINE"
-  local CMD="$(history 1 | sed 's/^[ ]*[0-9]*[ ]*//')"
-  local FUNCNAME="${FUNCNAME[1]:-MAIN}"
-  local BASH_SOURCE="${BASH_SOURCE[1]:-N/A}"
-  
-  local LINE_CONTENT=""
-  if [ -f "$BASH_SOURCE" ]; then
-    LINE_CONTENT=$(sed "${LINE}q;d" "$BASH_SOURCE")
-  else
-    LINE_CONTENT="Unable to retrieve line content."
-  fi
-
   msg "$FLAG $REASON"
-  msg "\e[91m[DEBUG] Command:\e[39m $CMD"
-  msg "\e[91m[DEBUG] File:\e[39m $BASH_SOURCE"
-  msg "\e[91m[DEBUG] Function:\e[39m $FUNCNAME"
-  msg "\e[91m[DEBUG] Line:\e[39m $LINE"
-  msg "\e[91m[DEBUG] Line Content:\e[39m $LINE_CONTENT"
-  
   exit $EXIT
 }
-
 function warn() {
   local REASON="\e[97m$1\e[39m"
   local FLAG="\e[93m[WARNING]\e[39m"
   msg "$FLAG $REASON"
 }
-
 function msg() {
   local TEXT="$1"
   echo -e "$TEXT"
@@ -49,7 +29,6 @@ function msg() {
 
 # Default variables
 LOCALE=${1:-en_US.UTF-8}
-export PATH=$PATH:/usr/sbin  # Ensure /usr/sbin is in the PATH
 
 # Prepare container OS
 msg "Customizing container OS..."
@@ -59,12 +38,12 @@ export LANGUAGE=$LOCALE LANG=$LOCALE
 locale-gen >/dev/null
 cd /root
 
-# Detect DHCP address with retry loop
+# Detect DHCP address
 while [ "$(hostname -I)" = "" ]; do
   COUNT=$((${COUNT-} + 1))
   warn "Failed to grab an IP address, waiting...$COUNT"
   if [ $COUNT -eq 10 ]; then
-    die "Unable to verify assigned IP address. Check network configuration."
+    die "Unable to verify assigned IP address."
   fi
   sleep 1
 done
@@ -122,5 +101,3 @@ sed -i "s/^\(root\)\(.*\)\(\/bin\/bash\)$/\1\2\/root\/login.sh/" /etc/passwd
 # Cleanup
 msg "Cleanup..."
 rm -rf /root/install_tuya-convert.sh /var/{cache,log}/* /var/lib/apt/lists/*
-
-msg "Setup complete."
