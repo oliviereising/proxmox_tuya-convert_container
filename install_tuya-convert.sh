@@ -72,22 +72,13 @@ msg "Running tuya-convert/install_prereq.sh..."
 ls 
 
 cd /root/tuya-convert
-
-
 # Ensure PATH includes directories where system binaries are located
 export PATH=$PATH:/sbin:/usr/sbin
 
-# Check if sudo is installed
-if ! command -v sudo &>/dev/null; then
-    echo "'sudo' not found. Installing sudo..."
-    # Check if the system is Debian-based (Ubuntu, etc.)
-    if [[ -f /etc/os-release ]] && grep -iq 'debian' /etc/os-release; then
-        # For Debian-based systems (Ubuntu, etc.)
-        apt update && apt install -y sudo
-    else
-        echo "This script requires 'sudo' to be installed. Exiting."
-        exit 1
-    fi
+if ! command -v sudo &> /dev/null; then
+    echo "'sudo' command not found. Installing..."
+    apt update
+    apt install -y sudo
 fi
 
 ls
