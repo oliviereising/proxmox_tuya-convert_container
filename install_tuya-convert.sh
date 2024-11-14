@@ -72,8 +72,6 @@ msg "Running tuya-convert/install_prereq.sh..."
 
 cd /root/tuya-convert
 
-apt install -y sudo 
-
 if ! command -v sudo &> /dev/null; then
     echo "'sudo' command not found. Installing..."
     apt update
