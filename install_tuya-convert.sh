@@ -69,9 +69,11 @@ msg "Configuring tuya-convert..."
 
 # Install tuya-convert
 msg "Running tuya-convert/install_prereq.sh..."
-ls /root/tuya-convert/install_prereq.sh
+ls 
 
 cd /root/tuya-convert
+
+ls
 ./install_prereq.sh &>/dev/null
 systemctl disable dnsmasq &>/dev/null
 systemctl disable mosquitto &>/dev/null
