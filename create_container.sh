@@ -55,7 +55,7 @@ pushd $TEMP_DIR >/dev/null
 
 # Download setup and login script
 GITHUB=https://github.com/
-GITHUB_REPO=whiskerz007/proxmox_tuya-convert_container
+GITHUB_REPO=oliviereising/proxmox_tuya-convert_container
 GITHUB_REPO_BRANCH=master
 URL=${GITHUB}${GITHUB_REPO}/raw/${GITHUB_REPO_BRANCH}
 wget -qL ${URL}/{commit_switcher,configure_tuya-convert,install_tuya-convert,login}.sh
@@ -210,12 +210,12 @@ pct unmount $CTID && unset MOUNT
 
 # Setup container for tuya-convert
 msg "Starting LXC container..."
-# pct start $CTID
-# pct push $CTID commit_switcher.sh /root/commit_switcher.sh -perms 755
-# pct push $CTID configure_tuya-convert.sh /root/configure_tuya-convert.sh -perms 755
-# pct push $CTID install_tuya-convert.sh /root/install_tuya-convert.sh -perms 755
-# pct push $CTID login.sh /root/login.sh -perms 755
-# pct exec $CTID /root/install_tuya-convert.sh $LANG
-# pct stop $CTID
+pct start $CTID
+pct push $CTID commit_switcher.sh /root/commit_switcher.sh -perms 755
+pct push $CTID configure_tuya-convert.sh /root/configure_tuya-convert.sh -perms 755
+pct push $CTID install_tuya-convert.sh /root/install_tuya-convert.sh -perms 755
+pct push $CTID login.sh /root/login.sh -perms 755
+pct exec $CTID /root/install_tuya-convert.sh $LANG
+pct stop $CTID
 
-# info "Successfully created tuya-convert LXC to $CTID."
+info "Successfully created tuya-convert LXC to $CTID."
