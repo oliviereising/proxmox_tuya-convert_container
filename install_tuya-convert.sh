@@ -75,10 +75,10 @@ cd /root/tuya-convert
 if ! command -v sudo &> /dev/null; then
     echo "'sudo' command not found. Installing..."
     apt update
-    apt install -y systemctl git iw dnsmasq rfkill hostapd screen curl build-essential python3-pip python3-setuptools python3-wheel python3-dev mosquitto haveged net-tools libssl-dev iproute2 iputils-ping
+    apt install -y systemctl git iw dnsmasq rfkill hostapd screen curl build-essential python3-pip pipx python3-setuptools python3-wheel python3-dev mosquitto haveged net-tools libssl-dev iproute2 iputils-ping
 fi
 
-python3 -m pip install --user --upgrade paho-mqtt tornado git+https://github.com/drbild/sslpsk.git pycryptodomex
+pipx install paho-mqtt tornado git+https://github.com/drbild/sslpsk.git pycryptodomex
 
 # ./install_prereq.sh &>/dev/null
 systemctl disable dnsmasq &>/dev/null
