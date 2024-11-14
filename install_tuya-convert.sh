@@ -71,8 +71,7 @@ msg "Configuring tuya-convert..."
 msg "Running tuya-convert/install_prereq.sh..."
 
 cd /root/tuya-convert
-# Ensure PATH includes directories where system binaries are located
-export PATH=$PATH:/sbin:/usr/sbin
+
 apt install -y sudo 
 
 if ! command -v sudo &> /dev/null; then
