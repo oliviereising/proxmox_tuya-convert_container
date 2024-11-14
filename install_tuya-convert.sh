@@ -86,42 +86,7 @@ git clone --quiet https://github.com/ct-Open-Source/tuya-convert
 
 # Configure tuya-convert
 msg "Configuring tuya-convert..."
-
-# Navigate to the tuya-convert directory
-cd /root/tuya-convert
-
-# Ensure 'iw' command is installed
-if ! command -v iw &> /dev/null; then
-  msg "'iw' command not found. Installing..."
-  apt update
-  apt install -y iw
-fi
-
-# Debugging: Output the path to iw command
-echo "Path to 'iw' command: $(which iw)"
-
-# Attempt to get the WLAN interface
-if ! WLAN=$(iw dev | sed -n 's/[[:space:]]Interface \(.*\)/\1/p' | head -n 1); then
-  echo "Failed to detect WLAN interface with 'iw' command."
-  exit 1
-fi
-echo "Detected WLAN interface: $WLAN"
-
-# Verify WLAN interface value and update config.txt
-if [ -z "$WLAN" ]; then
-  echo "No wireless interface found. Exiting."
-  exit 1
-fi
-
-# Check for config.txt file before updating
-if [ ! -f config.txt ]; then
-  echo "config.txt file not found. Exiting."
-  exit 1
-fi
-
-# Update WLAN setting in config.txt
-echo "Updating WLAN in config.txt to: $WLAN"
-sed -i "s/^\(WLAN=\)\(.*\)/\1$WLAN/" config.txt
+./configure_tuya-convert.sh
 
 # Install tuya-convert
 msg "Running tuya-convert/install_prereq.sh..."
