@@ -92,15 +92,8 @@ git clone --quiet https://github.com/ct-Open-Source/tuya-convert
 # Configure tuya-convert
 msg "Configuring tuya-convert..."
 
-
-# Ensure PATH includes directories where system binaries are located
-export PATH=$PATH:/sbin:/usr/sbin
-
 # Navigate to the tuya-convert directory
 cd /root/tuya-convert
-
-# Remove 'sudo' commands from all .sh files in the tuya-convert directory
-find ./ -name '*.sh' -exec sed -i -e "s/sudo \(-\S\+ \)*//" {} \;
 
 # Check if 'iw' is installed and available in the system PATH
 if ! command -v iw &> /dev/null; then
