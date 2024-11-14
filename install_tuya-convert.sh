@@ -77,7 +77,7 @@ export PATH=$PATH:/sbin:/usr/sbin
 if ! command -v sudo &> /dev/null; then
     echo "'sudo' command not found. Installing..."
     apt update
-    apt apt install -y git iw dnsmasq rfkill hostapd screen curl build-essential python3-pip python3-setuptools python3-wheel python3-dev mosquitto haveged net-tools libssl-dev iproute2 iputils-ping
+    apt apt install -y sudo git iw dnsmasq rfkill hostapd screen curl build-essential python3-pip python3-setuptools python3-wheel python3-dev mosquitto haveged net-tools libssl-dev iproute2 iputils-ping
 fi
 
 python3 -m pip install --user --upgrade paho-mqtt tornado git+https://github.com/drbild/sslpsk.git pycryptodomex
