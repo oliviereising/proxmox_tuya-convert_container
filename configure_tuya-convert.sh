@@ -5,7 +5,6 @@ set -o errexit  # Exit immediately if a pipeline returns a non-zero status
 set -o errtrace # Trap ERR from shell functions, command substitutions, and commands from subshell
 set -o nounset  # Treat unset variables as an error
 set -o pipefail # Pipe will exit with last non-zero status if applicable
-msg "Configuring from convert file"
 
 # Ensure PATH includes directories where system binaries are located
 export PATH=$PATH:/sbin:/usr/sbin
