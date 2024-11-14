@@ -10,13 +10,39 @@ alias die='EXIT=$? LINE=$LINENO error_exit'
 trap die ERR
 
 function error_exit() {
+  # Disable error trap to avoid recursive triggering
   trap - ERR
-  local DEFAULT='Unknown failure occured.'
+  
+  # Default error message if none is provided
+  local DEFAULT='Unknown failure occurred.'
+
+  # Gather detailed information for debugging
   local REASON="\e[97m${1:-$DEFAULT}\e[39m"
   local FLAG="\e[91m[ERROR:LXC] \e[93m$EXIT@$LINE"
+  local CMD="$(history 1 | sed 's/^[ ]*[0-9]*[ ]*//')" # Last executed command
+  local FUNCNAME="${FUNCNAME[1]:-MAIN}"                # Function name or 'MAIN' if not in function
+  local BASH_SOURCE="${BASH_SOURCE[1]:-N/A}"           # File where the error occurred
+
+  # Capture line content where the error occurred, if possible
+  local LINE_CONTENT=""
+  if [ -f "$BASH_SOURCE" ]; then
+    LINE_CONTENT=$(sed "${LINE}q;d" "$BASH_SOURCE")
+  else
+    LINE_CONTENT="Unable to retrieve line content."
+  fi
+
+  # Print enhanced error message
   msg "$FLAG $REASON"
+  msg "\e[91m[DEBUG] Command:\e[39m $CMD"
+  msg "\e[91m[DEBUG] File:\e[39m $BASH_SOURCE"
+  msg "\e[91m[DEBUG] Function:\e[39m $FUNCNAME"
+  msg "\e[91m[DEBUG] Line:\e[39m $LINE"
+  msg "\e[91m[DEBUG] Line Content:\e[39m $LINE_CONTENT"
+  
+  # Exit with the captured exit status
   exit $EXIT
 }
+
 function warn() {
   local REASON="\e[97m$1\e[39m"
   local FLAG="\e[93m[WARNING]\e[39m"
