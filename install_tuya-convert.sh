@@ -92,8 +92,8 @@ fi
 
 sudo apt-get update
 sudo apt-get install -y git iw dnsmasq rfkill hostapd screen curl build-essential python3-pip python3-setuptools python3-wheel python3-dev mosquitto haveged net-tools libssl-dev iproute2 iputils-ping
-sudo python3 -m pip install --user --upgrade paho-mqtt tornado git+https://github.com/drbild/sslpsk.git pycryptodomex
-
+sudo python3 -m pip install --user --upgrade --break-system-packages paho-mqtt tornado git+https://github.com/drbild/sslpsk.git pycryptodomex
+ 
 systemctl disable dnsmasq &>/dev/null
 systemctl disable mosquitto &>/dev/null
 
