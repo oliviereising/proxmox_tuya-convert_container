@@ -72,17 +72,22 @@ msg "Running tuya-convert/install_prereq.sh..."
 
 cd /root/tuya-convert
 
+# if ! command -v sudo &> /dev/null; then
+#     echo "'sudo' command not found. Installing..."
+#     apt update
+#     apt install -y sudo git iw dnsmasq rfkill hostapd screen curl build-essential python3-pip pipx python3-setuptools python3-wheel python3-dev mosquitto haveged net-tools libssl-dev iproute2 iputils-ping
+# fi
+
+# python3 -m venv /root/venv
+# source /root/venv/bin/activate
+# pip install paho-mqtt tornado sslpsk pycryptodomex pycryptodome
+
 if ! command -v sudo &> /dev/null; then
     echo "'sudo' command not found. Installing..."
     apt update
-    apt install -y sudo git iw dnsmasq rfkill hostapd screen curl build-essential python3-pip pipx python3-setuptools python3-wheel python3-dev mosquitto haveged net-tools libssl-dev iproute2 iputils-ping
+    apt install -y sudo 
 fi
-
-python3 -m venv /root/venv
-source /root/venv/bin/activate
-pip install paho-mqtt tornado sslpsk pycryptodomex pycryptodome
-
-# ./install_prereq.sh &>/dev/null
+./install_prereq.sh &>/dev/null
 systemctl disable dnsmasq &>/dev/null
 systemctl disable mosquitto &>/dev/null
 
