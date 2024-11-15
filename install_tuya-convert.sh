@@ -80,7 +80,7 @@ fi
 
 python3 -m venv /root/venv
 source /root/venv/bin/activate
-pip install paho-mqtt tornado sslpsk pycryptodomex
+pip install paho-mqtt tornado sslpsk pycryptodomex pycryptodome
 
 # ./install_prereq.sh &>/dev/null
 systemctl disable dnsmasq &>/dev/null
